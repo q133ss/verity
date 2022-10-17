@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('volunteers', function (Blueprint $table) {
             $table->id();
             $table->string('photo');
-            $table->string('fio');
+            $table->string('name');
+            $table->string('lastname');
+            $table->string('patronymic');
             $table->string('city');
             $table->json('socials');
             $table->timestamps();

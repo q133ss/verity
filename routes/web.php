@@ -20,10 +20,16 @@ Route::view('/contributors', 'contributors')->name('contributors');
 Route::view('/verification', 'verification')->name('verification');
 Route::view('/for-volunteers', 'for_volunteers')->name('for.volunteers');
 
-Route::prefix('admin')->middleware('auth')->middleware('is.admin')->group(function(){
+Route::prefix('admin')->name('admin.')->middleware('auth')->middleware('is.admin')->group(function(){
     Route::get('/', function (){
-        return 111;
-    });
+        return view('layouts.admin');
+    })->name('index');
+
+    Route::get('/recommenders', function (){
+        return 1;
+    })->name('recommenders');
+
+    Route::resource('volunteers', App\Http\Controllers\Admin\VolunteersController::class)->except('show');
 });
 
 Auth::routes();
