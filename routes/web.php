@@ -19,3 +19,13 @@ Route::view('/volunteers', 'volunteers')->name('volunteers');
 Route::view('/contributors', 'contributors')->name('contributors');
 Route::view('/verification', 'verification')->name('verification');
 Route::view('/for-volunteers', 'for_volunteers')->name('for.volunteers');
+
+Route::prefix('admin')->middleware('auth')->middleware('is.admin')->group(function(){
+    Route::get('/', function (){
+        return 111;
+    });
+});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

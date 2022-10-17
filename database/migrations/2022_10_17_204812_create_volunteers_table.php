@@ -13,8 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_admin')->default(false);
+        Schema::create('volunteers', function (Blueprint $table) {
+            $table->id();
+            $table->string('photo');
+            $table->string('fio');
+            $table->string('city');
+            $table->json('socials');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('volunteers');
     }
 };

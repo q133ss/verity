@@ -42,7 +42,7 @@
     </div>
     <div class="header__banner">
         <div class="containers">
-            <div class="header__banner-t">Проверьте ваш сертификат чтобы убедиться что он выдан  что то там что то там оверьте ваш сертификат чтобы убедиться что </div><a class="header__banner-b" href="/">Проверить</a>
+            <div class="header__banner-t">Проверьте ваш сертификат чтобы убедиться что он выдан  что то там что то там оверьте ваш сертификат чтобы убедиться что </div><a class="header__banner-b" href="{{route('verification')}}">Проверить</a>
         </div>
     </div>
 </header>
@@ -53,7 +53,7 @@
     <div class="footer__banner">
         <div class="containers">
             <div class="footer__banner-t">
-                Цепляющий заголовок в <br>подвале</div><a class="footer__banner-b" href="/">Пожертвовать</a>
+                Цепляющий заголовок в <br>подвале</div><a class="footer__banner-b" href="{{route('donate')}}">Пожертвовать</a>
         </div>
     </div>
     <div class="footer__line"> </div>
