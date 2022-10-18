@@ -25,11 +25,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->middleware('is.admin
         return view('layouts.admin');
     })->name('index');
 
-    Route::get('/recommenders', function (){
-        return 1;
-    })->name('recommenders');
-
     Route::resource('volunteers', App\Http\Controllers\Admin\VolunteersController::class)->except('show');
+    Route::resource('recommend', App\Http\Controllers\Admin\RecommendController::class)->except('show');
 });
 
 Auth::routes();

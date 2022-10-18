@@ -21,12 +21,12 @@
                     <td>{{$volunteer->city}}</td>
                     <td>
                         @foreach($volunteer->getSocials() as $key => $social)
-                            <a href="{{$social}}">{{$key}}</a>
+                            <a href="{{$social}}">{{$key}}</a> <br>
                         @endforeach
                     </td>
                     <td>
                         <a href="{{route('admin.volunteers.edit', $volunteer->id)}}" class="btn btn-warning">Изменить</a>
-                        <form action="{{route('admin.volunteers.destroy', $volunteer->id)}}" method="POST">
+                        <form action="{{route('admin.volunteers.destroy', $volunteer->id)}}" style="display:inline" method="POST">
                             @csrf
                             @method('DELETE')
                         <button type="submit" class="btn btn-danger">Удалить</button>

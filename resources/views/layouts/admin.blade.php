@@ -66,7 +66,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link " href="{{route('admin.recommenders')}}">
+            <a class="nav-link " href="{{route('admin.recommend.index')}}">
                 <i class="bi bi-grid"></i>
                 <span>Рекомендатели</span>
             </a>
@@ -83,6 +83,12 @@
 </aside><!-- End Sidebar-->
 
 <main id="main" class="main">
+
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert"> {{session('success')}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
 
     <div class="pagetitle">
         <h1>@yield('title')</h1>
