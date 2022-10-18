@@ -1,5 +1,8 @@
 @extends('layouts.main')
 @section('title', 'Волонтеры')
+@section('meta')
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+@endsection
 @section('content')
     <div class="volunteers-recom">
         <div class="containers">
@@ -61,16 +64,10 @@
             <div class="volunteers-recom__d">Равным образом консультация с широким активом позволяет оценить значение дальнейших направлений развития. Разнообразный и богатый опыт дальнейшее развитие различных форм деятельности требуют от нас анализа системы обучения кадров, соответствует насущным потребностям. Таким образом укрепление и развитие структуры позволяет оценить значение соответствующий </div>
             <div class="volunteers-recom__filter">
                 <div class="volunteers-recom__filter-i">
-                    <select class="c_select" name="select" style="display: none">
-                        <option>Сортировка по фамилии</option>
-                        <option value="default" selected="">1.Element</option>
-                        <option value="element_2">2.Element</option>
-                        <option value="element_3">3.Element</option>
-                        <option value="element_4">4.Element</option>
-                        <option value="element_5">5.Element</option>
-                        <option value="element_6">6.Element</option>
-                        <option value="element_7">7.Element</option>
-                        <option value="element_8">8.Element</option>
+                    <select class="c_select" name="select" style="display: none" onchange="sort($(this).val())">
+                        <option value="lastname">Сортировка по фамилии</option>
+                        <option value="name" selected="">Сортировка по имени</option>
+                        <option value="patronymic" selected="">Сортировка по отчеству</option>
                     </select>
                 </div>
                 <div class="volunteers-recom__filter-i">
@@ -85,36 +82,46 @@
                 </div>
             </div>
             <ul class="volunteers-recom__list">
+                @foreach($volunteers as $letter => $letterVolunteer)
                 <li class="volunteers-recom__list-i">
-                    <div class="volunteers-recom__list-t">А</div>
+                    <div class="volunteers-recom__list-t">{{$letter}}</div>
                     <div class="volunteers-recom__list-peoples">
+                        @foreach($letterVolunteer as $volunteer)
                         <div class="cardUser">
                             <div class="cardUser__photo"> <picture><source srcset="/assets/img/volunteers/people.webp" type="image/webp"><img src="/assets/img/volunteers/people.png"></picture></div>
                             <div class="cardUser__content">
-                                <div class="cardUser__content-n">Габиулин Ферис Азимович</div>
-                                <div class="cardUser__content-j">Самарская обл. г. Тольятти</div>
+                                <div class="cardUser__content-n">{{$volunteer->getFio()}}</div>
+                                <div class="cardUser__content-j">{{$volunteer->city}}</div>
                                 <div class="cardUser__content-socials"><a class="cardUser__content-s" href="/"> <picture><source srcset="/assets/img/volunteers/whatsapp.webp" type="image/webp"><img src="/assets/img/volunteers/whatsapp.png"></picture></a><a class="cardUser__content-s" href="/"> <picture><source srcset="/assets/img/volunteers/telegram.webp" type="image/webp"><img src="/assets/img/volunteers/telegram.png"></picture></a><a class="cardUser__content-s" href="/"> <picture><source srcset="/assets/img/volunteers/mail.webp" type="image/webp"><img src="/assets/img/volunteers/mail.png"></picture></a></div>
                             </div>
                         </div>
-                        <div class="cardUser">
-                            <div class="cardUser__photo"> <picture><source srcset="/assets/img/volunteers/people.webp" type="image/webp"><img src="/assets/img/volunteers/people.png"></picture></div>
-                            <div class="cardUser__content">
-                                <div class="cardUser__content-n">Габиулин Ферис Азимович</div>
-                                <div class="cardUser__content-j">Самарская обл. г. Тольятти</div>
-                                <div class="cardUser__content-socials"><a class="cardUser__content-s" href="/"> <picture><source srcset="/assets/img/volunteers/whatsapp.webp" type="image/webp"><img src="/assets/img/volunteers/whatsapp.png"></picture></a><a class="cardUser__content-s" href="/"> <picture><source srcset="/assets/img/volunteers/telegram.webp" type="image/webp"><img src="/assets/img/volunteers/telegram.png"></picture></a><a class="cardUser__content-s" href="/"> <picture><source srcset="/assets/img/volunteers/mail.webp" type="image/webp"><img src="/assets/img/volunteers/mail.png"></picture></a></div>
-                            </div>
-                        </div>
-                        <div class="cardUser">
-                            <div class="cardUser__photo"> <picture><source srcset="/assets/img/volunteers/people.webp" type="image/webp"><img src="/assets/img/volunteers/people.png"></picture></div>
-                            <div class="cardUser__content">
-                                <div class="cardUser__content-n">Габиулин Ферис Азимович</div>
-                                <div class="cardUser__content-j">Самарская обл. г. Тольятти</div>
-                                <div class="cardUser__content-socials"><a class="cardUser__content-s" href="/"> <picture><source srcset="/assets/img/volunteers/whatsapp.webp" type="image/webp"><img src="/assets/img/volunteers/whatsapp.png"></picture></a><a class="cardUser__content-s" href="/"> <picture><source srcset="/assets/img/volunteers/telegram.webp" type="image/webp"><img src="/assets/img/volunteers/telegram.png"></picture></a><a class="cardUser__content-s" href="/"> <picture><source srcset="/assets/img/volunteers/mail.webp" type="image/webp"><img src="/assets/img/volunteers/mail.png"></picture></a></div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </li>
+                @endforeach
             </ul>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        function sort(field){
+            $.ajax({
+                url: '/volunteers/sort/'+field,
+                type: "POST",
+                data: {
+                    field:field
+                },
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: (data) => {
+                    $('.volunteers-recom__list').html(data)
+                },
+                error: function(request, status, error) {
+                    console.log(statusCode = request.responseText);
+                }
+            })
+        }
+    </script>
 @endsection

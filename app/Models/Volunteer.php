@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Volunteer extends Model
 {
@@ -24,6 +25,6 @@ class Volunteer extends Model
 
     public function getFio()
     {
-        return $this->name.' '.$this->lastname.' '.$this->patronymic;
+        return $this->lastname.' '.$this->name.' '.$this->patronymic;
     }
 }

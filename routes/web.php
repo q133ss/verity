@@ -15,7 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'index')->name('index');
 Route::view('/donate', 'donate')->name('donate');
-Route::view('/volunteers', 'volunteers')->name('volunteers');
+Route::prefix('volunteers')->group(function(){
+    Route::get('/', [App\Http\Controllers\VolunteerController::class, 'index'])->name('volunteers');
+    Route::post('/sort/{field}', [App\Http\Controllers\VolunteerController::class, 'sort']);
+});
 Route::view('/contributors', 'contributors')->name('contributors');
 Route::view('/verification', 'verification')->name('verification');
 Route::view('/for-volunteers', 'for_volunteers')->name('for.volunteers');
