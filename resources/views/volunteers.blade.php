@@ -72,12 +72,12 @@
                 </div>
                 <div class="volunteers-recom__filter-i">
                     <label class="custom-input-search__label"><img class="custom-input-search__icon" src="/assets/svg/components/search.svg">
-                        <input class="custom-input-search__input" placeholder="Поиск по ФИО">
+                        <input class="custom-input-search__input" placeholder="Поиск по ФИО" oninput="search($(this).val())">
                     </label>
                 </div>
                 <div class="volunteers-recom__filter-i">
                     <label class="custom-input-search__label"><img class="custom-input-search__icon" src="/assets/svg/components/search.svg">
-                        <input class="custom-input-search__input" placeholder="Поиск по региону">
+                        <input class="custom-input-search__input" placeholder="Поиск по региону" oninput="searchCity($(this).val())">
                     </label>
                 </div>
             </div>
@@ -112,6 +112,41 @@
                 data: {
                     field:field
                 },
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: (data) => {
+                    $('.volunteers-recom__list').html(data)
+                },
+                error: function(request, status, error) {
+                    //console.log(statusCode = request.responseText);
+                }
+            })
+        }
+
+        function search(request){
+            $.ajax({
+                url: '/volunteers/search/'+request,
+                type: "POST",
+                data: {
+                    request:request
+                },
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: (data) => {
+                    $('.volunteers-recom__list').html(data)
+                },
+                error: function(request, status, error) {
+                    console.log(statusCode = request.responseText);
+                }
+            })
+        }
+
+        function searchCity(city){
+            $.ajax({
+                url: '/volunteers/search/city/'+city,
+                type: "POST",
                 headers:{
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },

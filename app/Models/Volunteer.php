@@ -23,8 +23,23 @@ class Volunteer extends Model
         return $socials[$value];
     }
 
-    public function getFio()
+    /**
+     * @return string
+     */
+    public function getFio() : string
     {
         return $this->lastname.' '.$this->name.' '.$this->patronymic;
+    }
+
+    public function scopeWithSearchFio($query, $request)
+    {
+        return $query->where('name', 'LIKE', '%'.$request.'%')
+                    ->orWhere('lastname', 'LIKE', '%'.$request.'%')
+                    ->orWhere('patronymic', 'LIKE', '%'.$request.'%');
+    }
+
+    public function scopeWithSearchCity($query, $city)
+    {
+        return $query->where('city', 'LIKE', '%'.$city.'%');
     }
 }
