@@ -21,7 +21,12 @@ Route::prefix('volunteers')->group(function(){
     Route::post('/search/{query}', [App\Http\Controllers\VolunteerController::class, 'search']);
     Route::post('/search/city/{query}', [App\Http\Controllers\VolunteerController::class, 'searchCity']);
 });
-Route::view('/contributors', 'contributors')->name('contributors');
+Route::prefix('contributors')->group(function(){
+    Route::get('/', [App\Http\Controllers\ContributorController::class, 'index'])->name('contributors');
+    Route::post('/sort/{field}', [App\Http\Controllers\ContributorController::class, 'sort']);
+    Route::post('/search/{query}', [App\Http\Controllers\ContributorController::class, 'search']);
+    Route::post('/search/city/{query}', [App\Http\Controllers\ContributorController::class, 'searchCity']);
+});
 Route::view('/verification', 'verification')->name('verification');
 Route::view('/for-volunteers', 'for_volunteers')->name('for.volunteers');
 

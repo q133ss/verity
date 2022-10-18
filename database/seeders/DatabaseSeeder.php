@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Contributor;
 use App\Models\User;
 use App\Models\Volunteer;
 use Illuminate\Database\Seeder;
@@ -51,5 +52,7 @@ class DatabaseSeeder extends Seeder
         foreach ($volunteers as $volunteer){
             Volunteer::create($volunteer);
         }
+
+        Contributor::factory(150)->create();
     }
 }

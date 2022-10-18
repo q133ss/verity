@@ -1,0 +1,30 @@
+<?php
+
+namespace Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Contributor>
+ */
+class ContributorFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition()
+    {
+        return [
+            'name' => fake()->name(),
+            'lastname' => fake()->lastName(),
+            'patronymic' => fake()->name(),
+            'phone' => fake()->phoneNumber(),
+            'country' => fake()->country(),
+            'recommender_id' => null,
+            'city' => fake()->city(),
+            'sum' => '12.000'
+        ];
+    }
+}
