@@ -78,6 +78,13 @@
                 <span>Волонтеры</span>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link " href="{{route('admin.volunteers.orders')}}">
+                <i class="bi bi-grid"></i>
+                <span>Заявки</span>
+            </a>
+        </li>
     </ul>
 
 </aside><!-- End Sidebar-->

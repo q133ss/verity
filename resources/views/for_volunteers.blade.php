@@ -1,5 +1,8 @@
 @extends('layouts.main')
 @section('title', 'Для волонтеров')
+@section('meta')
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+@endsection
 @section('content')
     <div class="for_volunteers-main">
         <div class="for_volunteers-main__banner"> <picture><source srcset="/assets/img/for_volunteers/banner.webp" type="image/webp"><img src="/assets/img/for_volunteers/banner.png"></picture></div>
@@ -10,7 +13,7 @@
                 <div class="for_volunteers-main__wrapper-f">
                     <div class="for_volunteers-main__wrapper-i">
                         <div class="for_volunteers-main__wrapper-l">Введите Ваше имя</div>
-                        <input class="custom-input" placeholder="Имя">
+                        <input class="custom-input" id="name" placeholder="Имя">
                     </div>
                     <div class="for_volunteers-main__wrapper-i">
                         <div class="for_volunteers-main__wrapper-l">Введите номер телефона</div>
@@ -18,7 +21,7 @@
                             <input class="custom-input-phone__input" id="phone__mask" placeholder="+7">
                         </label>
                     </div>
-                    <button class="for_volunteers-main__wrapper-b" id="buttonModalThxOpen">Стать волонтером</button>
+                    <button class="for_volunteers-main__wrapper-b" onclick="send()" id="buttonModalTxOpen">Стать волонтером</button>
                 </div>
             </div>
         </div>
@@ -107,4 +110,33 @@
             <button class="modal-thx__button" id="buttonModalThxClose">Назад</button>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        function send() {
+            let name = $('#name').val();
+            let phone = $('#phone__mask').val();
+
+            $.ajax({
+                url: '/volunteers/order',
+                type: "POST",
+                data: {
+                    name: name,
+                    phone: phone
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: (data) => {
+                    let name = $('name').val('')
+                    let phone = $('phone').val('')
+                    $("#modalThx").removeClass("display-n")
+                    $("body").css("overflow","hidden")
+                },
+                error: function (request, status, error) {
+                    console.log(statusCode = request.responseText);
+                }
+            })
+        }
+    </script>
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VolunteersController\UpdateRequest;
 use App\Models\Volunteer;
+use App\Models\VolunteerOrder;
 use Illuminate\Http\Request;
 
 class VolunteersController extends Controller
@@ -105,5 +106,11 @@ class VolunteersController extends Controller
     {
         Volunteer::find($id)->delete();
         return to_route('admin.volunteers.index')->withSuccess('Волонтер успешно удален');
+    }
+
+    public function orders()
+    {
+        $orders = VolunteerOrder::orderBy('created_at', 'DESC')->get();
+        return view('admin.volunteers.orders', compact('orders'));
     }
 }

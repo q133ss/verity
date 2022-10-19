@@ -92,7 +92,21 @@
                             <div class="cardUser__content">
                                 <div class="cardUser__content-n">{{$volunteer->getFio()}}</div>
                                 <div class="cardUser__content-j">{{$volunteer->city}}</div>
-                                <div class="cardUser__content-socials"><a class="cardUser__content-s" href="/"> <picture><source srcset="/assets/img/volunteers/whatsapp.webp" type="image/webp"><img src="/assets/img/volunteers/whatsapp.png"></picture></a><a class="cardUser__content-s" href="/"> <picture><source srcset="/assets/img/volunteers/telegram.webp" type="image/webp"><img src="/assets/img/volunteers/telegram.png"></picture></a><a class="cardUser__content-s" href="/"> <picture><source srcset="/assets/img/volunteers/mail.webp" type="image/webp"><img src="/assets/img/volunteers/mail.png"></picture></a></div>
+                                <div class="cardUser__content-socials">
+                                    @foreach($volunteer->getSocials() as $key => $social)
+                                        <a class="cardUser__content-s" href="{{$social}}">
+                                            <picture>
+                                                @if($key != 'email')
+                                                    <source srcset="/assets/img/volunteers/{{$key}}.webp" type="image/webp">
+                                                    <img src="/assets/img/volunteers/{{$key}}.png">
+                                                @elseif($key == 'email')
+                                                    <source srcset="/assets/img/volunteers/mail.webp" type="image/webp">
+                                                    <img src="/assets/img/volunteers/mail.png">
+                                                @endif
+                                            </picture>
+                                        </a>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                         @endforeach

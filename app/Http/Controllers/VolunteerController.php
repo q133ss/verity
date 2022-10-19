@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VolunteersController\OrderRequest;
 use App\Http\Services\VolunteerController\SortService;
 use App\Models\Volunteer;
+use App\Models\VolunteerOrder;
 use Illuminate\Http\Request;
 
 class VolunteerController extends Controller
@@ -39,5 +41,10 @@ class VolunteerController extends Controller
                 return mb_substr($item->lastname, 0, 1);
             });
         return view('ajax.volunteers', compact('volunteers'))->render();
+    }
+
+    public function order(OrderRequest $request)
+    {
+        return VolunteerOrder::create($request->validated());
     }
 }

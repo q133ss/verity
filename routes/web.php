@@ -20,6 +20,7 @@ Route::prefix('volunteers')->group(function(){
     Route::post('/sort/{field}', [App\Http\Controllers\VolunteerController::class, 'sort']);
     Route::post('/search/{query}', [App\Http\Controllers\VolunteerController::class, 'search']);
     Route::post('/search/city/{query}', [App\Http\Controllers\VolunteerController::class, 'searchCity']);
+    Route::post('/order', [App\Http\Controllers\VolunteerController::class, 'order']);
 });
 Route::prefix('contributors')->group(function(){
     Route::get('/', [App\Http\Controllers\ContributorController::class, 'index'])->name('contributors');
@@ -39,6 +40,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->middleware('is.admin
         return view('layouts.admin');
     })->name('index');
 
+    Route::get('volunteers/orders', [App\Http\Controllers\Admin\VolunteersController::class, 'orders'])->name('volunteers.orders');
     Route::resource('volunteers', App\Http\Controllers\Admin\VolunteersController::class)->except('show');
     Route::resource('recommend', App\Http\Controllers\Admin\RecommendController::class)->except('show');
 });
