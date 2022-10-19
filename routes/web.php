@@ -28,6 +28,7 @@ Route::prefix('contributors')->group(function(){
     Route::post('/search/city/{query}', [App\Http\Controllers\ContributorController::class, 'searchCity']);
 });
 Route::view('/verification', 'verification')->name('verification');
+Route::post('/certificate/check', [App\Http\Controllers\VerificationController::class, 'check']);
 Route::view('/for-volunteers', 'for_volunteers')->name('for.volunteers');
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->middleware('is.admin')->group(function(){

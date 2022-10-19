@@ -1,5 +1,8 @@
 @extends('layouts.main')
 @section('title', 'Проверка сертификата')
+@section('meta')
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+@endsection
 @section('content')
     <div class="verification-main">
         <div class="containers">
@@ -66,9 +69,9 @@
                 <div class="verification-form__item">
                     <div class="verification-form__element">
                         <div class="verification-form__element-l">Проверка по номеру сертификата</div>
-                        <input class="custom-input" placeholder="Введите 12 цифр номера сертификата">
+                        <input class="custom-input" id="number" placeholder="Введите 12 цифр номера сертификата">
                     </div>
-                    <button class="verification-form__button">Проверить</button>
+                    <button class="verification-form__button" onclick="checkNumber($('#number').val())">Проверить</button>
                 </div>
                 <div class="verification-form__item">
                     <div class="verification-form__element">
@@ -77,68 +80,24 @@
                             <input class="custom-input-phone__input" id="phone__mask" placeholder="+7">
                         </label>
                     </div>
-                    <button class="verification-form__button">Проверить</button>
+                    <button class="verification-form__button" onclick="checkPhone($('#phone__mask').val())">Проверить</button>
                 </div>
                 <div class="verification-form__item">
                     <div class="verification-form__element">
                         <div class="verification-form__element-l">Проверка по ФИО</div>
                         <div class="verification-form__element-list">
-                            <input class="custom-input" placeholder="Фамилия">
-                            <input class="custom-input" placeholder="Имя">
-                            <input class="custom-input" placeholder="Отчество">
+                            <input class="custom-input" id="lastname" placeholder="Фамилия">
+                            <input class="custom-input" id="name" placeholder="Имя">
+                            <input class="custom-input" id="patronymic" placeholder="Отчество">
                         </div>
                     </div>
-                    <button class="verification-form__button">Проверить</button>
+                    <button class="verification-form__button" onclick="checkFio()">Проверить</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="containers">
-        <div class="verification-ready">
-            <div class="verification-ready__header">
-                <div class="verification-ready__header-i"> <img src="/assets/svg/verification/ready.svg"></div>
-                <div class="verification-ready__header-t">Проверка прошла успешно</div>
-            </div>
-            <div class="verification-ready__content">
-                <div class="verification-ready__blocks">
-                    <div class="verification-ready__content-l">
-                        <div class="verification-ready__content-t">ФИО жертвователя:</div>
-                        <div class="verification-ready__content-i">Иванов Иван Александрович</div>
-                    </div>
-                    <div class="verification-ready__content-l">
-                        <div class="verification-ready__content-t">ФИО жертвователя:</div>
-                        <div class="verification-ready__content-i">Иванов Иван Александрович</div>
-                    </div>
-                    <div class="verification-ready__content-l">
-                        <div class="verification-ready__content-t">ФИО жертвователя:</div>
-                        <div class="verification-ready__content-i">Иванов Иван Александрович</div>
-                    </div>
-                    <div class="verification-ready__content-l">
-                        <div class="verification-ready__content-t">ФИО жертвователя:</div>
-                        <div class="verification-ready__content-i">Иванов Иван Александрович</div>
-                    </div>
-                    <div class="verification-ready__content-l">
-                        <div class="verification-ready__content-t">ФИО жертвователя:</div>
-                        <div class="verification-ready__content-i">Иванов Иван Александрович</div>
-                    </div>
-                </div>
-                <div class="verification-ready__photo"> <picture><source srcset="/assets/img/verification/serf.webp" type="image/webp"><img src="/assets/img/verification/serf.png"></picture></div>
-            </div>
-        </div>
-    </div>
-    <div class="containers">
-        <div class="verification-error">
-            <div class="verification-error__header">
-                <div class="verification-error__header-i"> <img src="/assets/svg/verification/error.svg"></div>
-                <div class="verification-error__header-t">Проверка прошла успешно</div>
-            </div>
-            <div class="verification-error__content">
-                <div class="verification-error__content-t">Проверьте правильность написания номера сертификата или других данных для поиска. </div>
-                <div class="verification-error__content-d">
-                    Если в итоге вы не смогли найти свой сертификат, то:<br>1. Обратитесь к своему рекомендателю, чтобы уточнить добавлен ли ваш платеж<br>2. Если рекомендателя нет, то напишите нам в поддержку на сайте позвоните по номеру  8 800 453 83 04</div>
-                <div class="verification-error__content-buttons"> <a class="verification-error__content-button" href="/">Обратиться к рекомендателю</a><a class="verification-error__content-button" href="/">Написать в поддержку</a></div>
-            </div>
-        </div>
+    <div class="containers" id='ajax-message'>
+
     </div>
     <div class="verification-description">
         <div class="containers">
@@ -148,4 +107,70 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        function checkNumber(number){
+            $.ajax({
+                url: '/certificate/check/',
+                type: "POST",
+                data: {
+                    number: number
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: (data) => {
+                    $('#ajax-message').html(data)
+                },
+                error: function (request, status, error) {
+                    //console.log(statusCode = request.responseText);
+                }
+            })
+        }
+
+        function checkPhone(phone){
+                $.ajax({
+                    url: '/certificate/check/',
+                    type: "POST",
+                    data: {
+                        phone: phone
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: (data) => {
+                        $('#ajax-message').html(data)
+                    },
+                    error: function (request, status, error) {
+                        //console.log(statusCode = request.responseText);
+                    }
+                })
+        }
+
+        function checkFio(){
+            let lastname = $('#lastname').val()
+            let name = $('#name').val()
+            let patronymic = $('#patronymic').val()
+
+            $.ajax({
+                url: '/certificate/check/',
+                type: "POST",
+                data: {
+                    lastname:lastname,
+                    name:name,
+                    patronymic:patronymic
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: (data) => {
+                    $('#ajax-message').html(data)
+                },
+                error: function (request, status, error) {
+                    //console.log(statusCode = request.responseText);
+                }
+            })
+        }
+    </script>
 @endsection

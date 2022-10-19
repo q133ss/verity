@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Certificate;
 use App\Models\Contributor;
 use App\Models\User;
 use App\Models\Volunteer;
@@ -54,5 +55,15 @@ class DatabaseSeeder extends Seeder
         }
 
         Contributor::factory(150)->create();
+
+        Certificate::create([
+            'number' => '222',
+            'contributor_id' => 7
+        ]);
+
+        Certificate::create([
+            'number' => '111111',
+            'contributor_id' => 97
+        ]);
     }
 }

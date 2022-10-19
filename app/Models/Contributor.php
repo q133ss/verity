@@ -32,4 +32,14 @@ class Contributor extends Model
     {
         return $query->where('city', 'LIKE', '%'.$request.'%');
     }
+
+    public function Certificate()
+    {
+        return $this->hasOne(Certificate::class, 'contributor_id', 'id');
+    }
+
+    public function getFio()
+    {
+        return $this->lastname.' '.$this->name.' '.$this->patronymic;
+    }
 }

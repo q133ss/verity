@@ -26,7 +26,7 @@
         <div class="containers"> <a class="header__logo" href="/"> <picture><source srcset="/assets/img/header/logo-black.webp" type="image/webp"><img src="/assets/img/header/logo-black.png"></picture></a>
             <div class="header__navs">
                 <nav class="header__nav"><a href="/">Главная</a></nav>
-                <nav class="header__nav header__nav-a"> <a href="{{route('donate')}}">Пожертвовать</a></nav>
+                <nav class="header__nav"> <a href="{{route('donate')}}">Пожертвовать</a></nav>
                 <nav class="header__nav"> <a href="{{route('volunteers')}}">Волонтеры</a></nav>
                 <nav class="header__nav"><a href="{{route('contributors')}}">Жертвователи</a></nav>
                 <nav class="header__nav"><a href="{{route('verification')}}">Проверка сертификата</a></nav>
@@ -111,5 +111,15 @@
     </div>
 </footer>
 <script type="module" src="/assets/js/app.min.js?_v=20221017195015"></script>
+<script>
+    $(".header__navs .header__nav a").each(function () {
+        var location2 = window.location.protocol + '//' + window.location.host + window.location.pathname;
+        var link = this.href;
+        if(link == location2){
+            $(this).addClass('active');
+            $(this).parent().addClass('header__nav-a');
+        }
+    })
+</script>
 @yield('scripts')
 </body>
