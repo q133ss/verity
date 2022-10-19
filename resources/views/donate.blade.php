@@ -63,35 +63,40 @@
     <div class="donate-form">
         <div class="donate-form__banner"> <img src="/assets/svg/donate/bg.svg"></div>
         <div class="containers">
+            <form action="{{route('contributors.payment')}}" method="POST">
+                @csrf
             <div class="donate-form__wrapper">
                 <div class="donate-form__t">Заполните информацию о себе</div>
                 <div class="donate-form__d">Товарищи! реализация намеченных плановых заданий позволяет выполнять важные задания по разработке системы обучения</div>
+                @if ($errors->any())
+                    <span class="for_volunteers-plus__item-d" style="color:#f00; font-weight: 700;">{{ $errors->first() }}</span>
+                @endif
                 <div class="donate-form__blocks">
                     <div class="donate-form__item">
                         <div class="donate-form__item-l">Введите Вашу фамилию</div>
-                        <input class="custom-input" placeholder="Фамилия">
+                        <input class="custom-input" value="{{old('lastname')}}" name="lastname" placeholder="Фамилия">
                     </div>
                     <div class="donate-form__item">
                         <div class="donate-form__item-l">Введите Ваше имя</div>
-                        <input class="custom-input" placeholder="Имя">
+                        <input class="custom-input" value="{{old('name')}}" name="name" placeholder="Имя">
                     </div>
                     <div class="donate-form__item">
                         <div class="donate-form__item-l">Введите Ваше Отчество </div>
-                        <input class="custom-input" placeholder="Отчество">
+                        <input class="custom-input" value="{{old('patronymic')}}" name="patronymic" placeholder="Отчество">
                     </div>
                     <div class="donate-form__item">
                         <div class="donate-form__item-l">Введите номер телефона</div>
                         <label class="custom-input-phone__label"><img class="custom-input-phone__icon" src="/assets/svg/components/rus.svg">
-                            <input class="custom-input-phone__input" id="phone__mask" placeholder="+7">
+                            <input class="custom-input-phone__input" value="{{old('phone')}}" id="phone__mask" name="phone" placeholder="+7">
                         </label>
                     </div>
                     <div class="donate-form__item">
                         <div class="donate-form__item-l">Введите вашу почту</div>
-                        <input class="custom-input" placeholder="mail@mail.ru">
+                        <input class="custom-input" value="{{old('email')}}" name="email" placeholder="mail@mail.ru">
                     </div>
                     <div class="donate-form__item">
                         <div class="donate-form__item-l">Выберите страну</div>
-                        <select class="c_select" name="select" style="display: none">
+                        <select class="c_select" name="country" style="display: none">
                             <option>Страна</option>
                             <option value="default" selected="">1.Element</option>
                             <option value="element_2">2.Element</option>
@@ -105,15 +110,15 @@
                     </div>
                     <div class="donate-form__item">
                         <div class="donate-form__item-l">Введите регион</div>
-                        <input class="custom-input" placeholder="Город / Село / Поселок">
+                        <input class="custom-input" value="{{old('city')}}" name="city" placeholder="Город / Село / Поселок">
                     </div>
                     <div class="donate-form__item">
                         <div class="donate-form__item-h">
                             <div class="donate-form__item-l">Выберите страну</div><a class="donate-form__item-a" href="/">у меня нет рекомендателя</a>
                         </div>
-                        <select class="c_select" name="select" style="display: none">
+                        <select class="c_select" name="recommender_id" style="display: none">
                             <option>Выберите рекомендателя</option>
-                            <option value="default" selected="">1.Element</option>
+                            <option value="1" selected="">Нету</option>
                             <option value="element_2">2.Element</option>
                             <option value="element_3">3.Element</option>
                             <option value="element_4">4.Element</option>
@@ -127,7 +132,7 @@
                         <div class="donate-form__item-l">Введите сумму пожертвования</div>
                         <label class="custom-input-rub__label">
                             <div class="custom-input-rub__text">₽</div>
-                            <input class="custom-input-rub__input" placeholder="">
+                            <input class="custom-input-rub__input" value="{{old('sum')}}" name="sum" placeholder="">
                         </label>
                     </div>
                 </div>
@@ -141,8 +146,9 @@
                         <label class="checkbox__label" for="2">Согласен с политикой обработки персональных данных, правилами предоставления услуг по подписке, офертой рекуррентных платежей, договором-офертой и условиями использования</label>
                     </div>
                 </div>
-                <button class="donate-form__button">Пожертвовать</button>
+                <button type="submit" class="donate-form__button">Пожертвовать</button>
             </div>
+            </form>
         </div>
     </div>
 @endsection

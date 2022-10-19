@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContributorController\PaymentRequest;
 use App\Models\Contributor;
-use Illuminate\Http\Request;
+
 
 class ContributorController extends Controller
 {
@@ -29,5 +30,14 @@ class ContributorController extends Controller
     {
         $contributors = Contributor::withFilterCity($query)->get();
         return view('ajax.contributors', compact('contributors'));
+    }
+
+    public function payment(PaymentRequest $request)
+    {
+        //payment
+        //if success
+        $contributor = Contributor::create($request->validated());
+        //Print cerificate
+        return to_route('certificate.make', $contributor);
     }
 }

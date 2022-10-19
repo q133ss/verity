@@ -23,10 +23,13 @@ Route::prefix('volunteers')->group(function(){
 });
 Route::prefix('contributors')->group(function(){
     Route::get('/', [App\Http\Controllers\ContributorController::class, 'index'])->name('contributors');
+    Route::post('/payment', [App\Http\Controllers\ContributorController::class, 'payment'])->name('contributors.payment');
+    Route::post('/', [App\Http\Controllers\ContributorController::class, 'store'])->name('contributors.store');
     Route::post('/sort/{field}', [App\Http\Controllers\ContributorController::class, 'sort']);
     Route::post('/search/{query}', [App\Http\Controllers\ContributorController::class, 'search']);
     Route::post('/search/city/{query}', [App\Http\Controllers\ContributorController::class, 'searchCity']);
 });
+Route::get('/certificate/{id}', [App\Http\Controllers\CertificateController::class, 'make'])->name('certificate.make');
 Route::view('/verification', 'verification')->name('verification');
 Route::post('/certificate/check', [App\Http\Controllers\VerificationController::class, 'check']);
 Route::view('/for-volunteers', 'for_volunteers')->name('for.volunteers');

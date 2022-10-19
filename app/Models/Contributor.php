@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Contributor extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 
     public function scopeWithSort($query, $field)
     {
