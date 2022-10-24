@@ -14,7 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/', 'index')->name('index');
-Route::view('/donate', 'donate')->name('donate');
+Route::get('ttt', function (){
+    return \App\Models\Contributor::find(151)->getCity();
+});
+Route::get('/donate', [App\Http\Controllers\ContributorController::class, 'donate'])->name('donate');
 Route::prefix('volunteers')->group(function(){
     Route::get('/', [App\Http\Controllers\VolunteerController::class, 'index'])->name('volunteers');
     Route::post('/sort/{field}', [App\Http\Controllers\VolunteerController::class, 'sort']);

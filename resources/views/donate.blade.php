@@ -1,5 +1,8 @@
 @extends('layouts.main')
-@section('title', '')
+@section('title', 'Пожертвовать')
+@section('meta')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endsection
 @section('content')
     <div class="donate-main">
         <div class="containers">
@@ -96,21 +99,20 @@
                     </div>
                     <div class="donate-form__item">
                         <div class="donate-form__item-l">Выберите страну</div>
-                        <select class="c_select" name="country" style="display: none">
-                            <option>Страна</option>
-                            <option value="default" selected="">1.Element</option>
-                            <option value="element_2">2.Element</option>
-                            <option value="element_3">3.Element</option>
-                            <option value="element_4">4.Element</option>
-                            <option value="element_5">5.Element</option>
-                            <option value="element_6">6.Element</option>
-                            <option value="element_7">7.Element</option>
-                            <option value="element_8">8.Element</option>
+                        <select name="country_id" id="country_input">
+                            @foreach($countries as $country)
+                                <option value="{{$country->id}}">{{$country->name}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="donate-form__item">
                         <div class="donate-form__item-l">Введите регион</div>
-                        <input class="custom-input" value="{{old('city')}}" name="city" placeholder="Город / Село / Поселок">
+{{--                        <input class="custom-input" value="{{old('city')}}" name="city" placeholder="Город / Село / Поселок">--}}
+{{--                        <input type="text" name="city" class="js-data-example-ajax custom-input">--}}
+                        <select name="city" id="" class="js-data-example-ajax custom-input">
+                            <option value="Москва">Москва</option>
+                        </select>
+
                     </div>
                     <div class="donate-form__item">
                         <div class="donate-form__item-h">
@@ -151,4 +153,47 @@
             </form>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $('#country_input').select2({
+            minimumInputLength: 3, // only start searching when the user has input 3 or more characters
+            language: {
+                inputTooShort: function () {
+                    return "Введите минимум 3 символа";
+                },
+                noResults: function () {
+                    return 'Ничего не найдено';
+                }
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(".js-data-example-ajax").select2({
+                ajax: {
+                    url: function (params) {
+                        return "http://geodb-free-service.wirefreethought.com/v1/geo/cities?offset=0&namePrefix="+ params.term +"&languageCode=ru";
+                    },
+                    dataType: 'json',
+                    quietMillis: 100,
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data.data, function(item) {
+                                console.log(typeof(item))
+                                return {
+                                    'value': item.id,
+                                    'id': item.id,
+                                    'text': item.name
+                                };
+                            })
+                        };
+                    }
+                }
+            });
+        });
+
+    </script>
 @endsection

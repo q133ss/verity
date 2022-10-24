@@ -21,7 +21,7 @@ class ContributorFactory extends Factory
             'lastname' => fake()->lastName(),
             'patronymic' => fake()->name(),
             'phone' => fake()->phoneNumber(),
-            'country' => fake()->country(),
+            'country_id' => rand(1,100),
             'recommender_id' => null,
             'city' => fake()->city(),
             'sum' => '12.000'

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ContributorController\PaymentRequest;
 use App\Models\Contributor;
+use App\Models\Country;
 
 
 class ContributorController extends Controller
@@ -39,5 +40,11 @@ class ContributorController extends Controller
         $contributor = Contributor::create($request->validated());
         //Print cerificate
         return to_route('certificate.make', $contributor);
+    }
+
+    public function donate()
+    {
+        $countries = Country::get();
+        return view('donate', compact('countries'));
     }
 }

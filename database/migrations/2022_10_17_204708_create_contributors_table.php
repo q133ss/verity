@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('patronymic');
             $table->string('phone');
-            $table->string('country');
+            $table->foreignId('country_id');
             $table->foreignId('recommender_id')->nullable();
             $table->string('city');
             $table->double('sum');

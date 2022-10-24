@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Http;
 
 class Contributor extends Model
 {
@@ -42,5 +43,17 @@ class Contributor extends Model
     public function getFio()
     {
         return $this->lastname.' '.$this->name.' '.$this->patronymic;
+    }
+
+    public function getCountry()
+    {
+        return $this->hasOne(Country::class, 'id', 'country_id');
+    }
+
+    public function getCity()
+    {
+        $response = Http::withHeaders(['Accept' => 'application/json', 'Content-type' => 'application/json'])->get('http://geodb-free-service.wirefreethought.com/v1/geo/cities/'.$this->city.'?languageCode=ru');
+        $data = json_decode($response->body());
+        return $data->data->name ?? '';
     }
 }

@@ -28,7 +28,7 @@ class PaymentRequest extends FormRequest
             'lastname' => 'required|string',
             'patronymic' => 'required|string',
             'phone' => 'required|string',
-            'country' => 'required|string',
+            'country_id' => 'required|string',
             'recommender_id' => 'integer|nullable',
             'city' => 'required|string',
             'sum' => 'numeric'
@@ -42,7 +42,7 @@ class PaymentRequest extends FormRequest
             'lastname.required' => 'Введите фамилию',
             'patronymic.required' => 'Введите отчество',
             'phone.required' => 'Введите телефон',
-            'country.required' => 'Выберите страну',
+            'country_id.required' => 'Выберите страну',
             'city.required' => 'Введите город',
             'sum.required' => 'Введите сумму'
         ];
