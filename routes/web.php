@@ -14,9 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/', 'index')->name('index');
-Route::get('ttt', function (){
-    return \App\Models\Contributor::find(151)->getCity();
+Route::get('/ttt', function(){
+    \Artisan::call('migrate:fresh');
+    \Artisan::call('db:seed CountrySeeder');
+    \Artisan::call('db:seed');
 });
+
 Route::get('/donate', [App\Http\Controllers\ContributorController::class, 'donate'])->name('donate');
 Route::prefix('volunteers')->group(function(){
     Route::get('/', [App\Http\Controllers\VolunteerController::class, 'index'])->name('volunteers');
@@ -33,7 +36,7 @@ Route::prefix('contributors')->group(function(){
     Route::post('/search/{query}', [App\Http\Controllers\ContributorController::class, 'search']);
     Route::post('/search/city/{query}', [App\Http\Controllers\ContributorController::class, 'searchCity']);
 });
-Route::get('/certificate/{id}', [App\Http\Controllers\CertificateController::class, 'make'])->name('certificate.make');
+Route::get('/certificate/{id}', [App\Http\Controllers\CertificateController::class, 'show'])->name('certificate.show');
 Route::view('/verification', 'verification')->name('verification');
 Route::post('/certificate/check', [App\Http\Controllers\VerificationController::class, 'check']);
 Route::view('/for-volunteers', 'for_volunteers')->name('for.volunteers');
@@ -45,7 +48,6 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->middleware('is.admin
 
     Route::get('volunteers/orders', [App\Http\Controllers\Admin\VolunteersController::class, 'orders'])->name('volunteers.orders');
     Route::resource('volunteers', App\Http\Controllers\Admin\VolunteersController::class)->except('show');
-    Route::resource('recommend', App\Http\Controllers\Admin\RecommendController::class)->except('show');
 });
 
 Auth::routes();
